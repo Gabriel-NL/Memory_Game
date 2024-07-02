@@ -1,0 +1,2 @@
+-Make the memory game infinite scrolling from up to down.
+-The new cards come from top, and the old are on the bottom.
