@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardList : MonoBehaviour
+public class RuneList : MonoBehaviour
 {
     // Start is called before the first frame update
-    public List<Sprite> cards=new List<Sprite>();
-    public Sprite card_back;
+    public List<Sprite> runes=new List<Sprite>();
+    public Sprite rune_back;
 
-    public Sprite Get_card(int id){
+    public Sprite Get_rune(int id){
         try
         {
-            return cards[id];
+            return runes[id];
         }
         catch (System.Exception e)
         {

@@ -2,27 +2,27 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardInteraction : MonoBehaviour
+public class RuneInteraction : MonoBehaviour
 {
     // Start is called before the first frame update
     private int image_id;
     public bool clicked = false;
 
     [SerializeField]
-    public CardList cardList;
+    public RuneList runeList;
     public Image texture;
     private Color initial_color;
-    private Sprite card_back,
-        card_front;
+    private Sprite rune_back,
+        rune_front;
 
     public void Set_id(int id)
     {
         this.image_id = id;
         this.texture=gameObject.GetComponent<Image>();
-        card_back = cardList.card_back;
-        card_front = cardList.Get_card(image_id);
+        rune_back = runeList.rune_back;
+        rune_front = runeList.Get_rune(image_id);
         initial_color=texture.color;
-        texture.sprite = card_back;
+        texture.sprite = rune_back;
     }
     public int GetImageId(){
         return image_id;
@@ -38,12 +38,12 @@ public class CardInteraction : MonoBehaviour
                 new_color.a = 1f;
                 texture.color = new_color;
             }
-            texture.sprite = card_back;
+            texture.sprite = rune_back;
             hide = !hide;
         }
         else
         {
-            gameObject.GetComponent<Image>().sprite = card_front;
+            gameObject.GetComponent<Image>().sprite = rune_front;
             gameObject.GetComponent<Image>().color = initial_color;
             hide = !hide;
         }
