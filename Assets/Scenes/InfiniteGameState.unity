@@ -196,7 +196,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1170, y: 540}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.219
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -256,10 +256,10 @@ RectTransform:
   - {fileID: 2133772045}
   m_Father: {fileID: 1008831259}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 250, y: 0}
-  m_SizeDelta: {x: -500, y: 0}
+  m_SizeDelta: {x: 670, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &517330047
 GameObject:
@@ -272,7 +272,6 @@ GameObject:
   - component: {fileID: 517330048}
   - component: {fileID: 517330050}
   - component: {fileID: 517330049}
-  - component: {fileID: 517330051}
   m_Layer: 0
   m_Name: PlayableArea
   m_TagString: Untagged
@@ -294,10 +293,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1510672745}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 65}
-  m_SizeDelta: {x: -40, y: -170}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1150, y: 402}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &517330049
 MonoBehaviour:
@@ -337,22 +336,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 517330047}
   m_CullTransparentMesh: 1
---- !u!114 &517330051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517330047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6a01d7a538ba714da96c432abd60fc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runeList: {fileID: 1208678470}
-  runeTemplate: {fileID: 7974756117553335751, guid: 3754c0cdf08ebfb4f90a2f9654e11bc0, type: 3}
-  select_frame: {fileID: 7469444862525513909, guid: 6b820dd2ae6c9f1479c85552228028d2, type: 3}
-  failCounter: {fileID: 2133772048}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,10 +460,10 @@ RectTransform:
   - {fileID: 2040384623}
   m_Father: {fileID: 1008831259}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -250, y: 0}
-  m_SizeDelta: {x: -500, y: 0}
+  m_SizeDelta: {x: 670, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1008831258
 GameObject:
@@ -516,10 +499,10 @@ RectTransform:
   - {fileID: 907627235}
   m_Father: {fileID: 1510672745}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -271}
+  m_SizeDelta: {x: 1170, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1008831260
 MonoBehaviour:
@@ -643,10 +626,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 90
   m_fontSizeBase: 90
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 15
   m_fontSizeMax: 50
   m_fontStyle: 0
@@ -827,11 +810,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1510672744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aec042f3be8ff904e9a5bbbd0139e230, type: 3}
+  m_Script: {fileID: 11500000, guid: 17e035146d8613c4884fbbba6caeff8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navBar: {fileID: 1008831259}
   counterDiv: {fileID: 473910442}
   buttonDiv: {fileID: 907627235}
+  playableArea: {fileID: 517330048}
+  runeList: {fileID: 1208678470}
+  runeTemplate: {fileID: 7974756117553335751, guid: 3754c0cdf08ebfb4f90a2f9654e11bc0, type: 3}
+  select_frame: {fileID: 7469444862525513909, guid: 6b820dd2ae6c9f1479c85552228028d2, type: 3}
+  failCounter: {fileID: 2133772048}
 --- !u!1 &1942369467
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,8 +979,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CreateCards, Assembly-CSharp
+      - m_Target: {fileID: 1510672746}
+        m_TargetAssemblyTypeName: BoardCreator, Assembly-CSharp
         m_MethodName: GoBack
         m_Mode: 1
         m_Arguments:
@@ -1125,10 +1114,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 90
   m_fontSizeBase: 90
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 50
   m_fontStyle: 0

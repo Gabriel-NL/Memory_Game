@@ -1,77 +1,155 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using System;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Linq;
 
-public class InfiniteRunes : MonoBehaviour
+public class BoardCreator : MonoBehaviour
 {
+    public RectTransform navBar,
+        counterDiv,
+        buttonDiv,
+        playableArea;
+
+    private float externalMargin = 10f;
     public RuneList runeList;
 
     [SerializeField]
     private GameObject runeTemplate,
         select_frame;
-    private float margin = 20f; // Minimum distance between runes (both X and Y)
+    private float internalMargin = 20f; // Minimum distance between runes (both X and Y)
     private List<GameObject> selected_runes = new List<GameObject>();
 
     [SerializeField]
     private FailCounter failCounter;
 
-    public void Start()
+    void Start()
     {
-        int runeCount= CreateBoard();
-        int variations= 2;
-        Assign_runes(variations);
+        RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
+        float height_fragments = rectTransform.rect.height / 16;
+        AdjustPlayableArea(rectTransform, height_fragments);
+        AdjustNavbar(rectTransform, height_fragments);
+        int runeCount = CreateBoard();
+        int variations = 2;
+        Assign_runes(variations, playableArea);
+    }
 
+    public void AdjustPlayableArea(RectTransform rectTransform, float height_fragments)
+    {
+        float max_height = height_fragments * 14 - externalMargin;
+        float max_width = rectTransform.rect.width - (externalMargin * 2);
 
+        float current_height = playableArea.rect.height;
+        float current_width = current_height / 2;
+
+        float width_with_max_height = (max_height * current_width) / current_height;
+        float height_with_max_width = (max_width * current_height) / current_width;
+
+        if (width_with_max_height == height_with_max_width)
+        {
+            playableArea.sizeDelta = new Vector2(max_width, max_height);
+        }
+        else
+        {
+            if (width_with_max_height < height_with_max_width)
+            {
+                playableArea.sizeDelta = new Vector2(width_with_max_height, max_height);
+            }
+            else
+            {
+                playableArea.sizeDelta = new Vector2(max_width, height_with_max_width);
+            }
+        }
+        float y_pos =
+            (rectTransform.rect.height / 2) - externalMargin - (playableArea.sizeDelta.y / 2);
+        // Set the anchored position (center)
+        playableArea.anchoredPosition = new Vector2(0, y_pos);
+        Debug.Log(
+            $"localPosition: {playableArea.localPosition},anchoredPosition:  {playableArea.anchoredPosition} "
+        );
+    }
+
+    public void AdjustNavbar(RectTransform rectTransform, float height_fragments)
+    {
+        float navbar_height = height_fragments * 1.5f;
+        float navBar_width = rectTransform.rect.width;
+        float x_pos;
+        float y_pos;
+
+        navBar.sizeDelta = new Vector2(navBar_width, navbar_height);
+        y_pos = -(rectTransform.rect.height / 2) + navBar.sizeDelta.y / 2;
+        navBar.localPosition = new Vector2(0, y_pos);
+
+        float width_fragments = navBar_width / 5;
+
+        buttonDiv.sizeDelta = new Vector2(width_fragments * 2, navbar_height);
+        Debug.Log("Nav " + navBar_width / 2);
+        x_pos = -(navBar_width / 2) + buttonDiv.sizeDelta.x / 2;
+        buttonDiv.localPosition = new Vector2(x_pos, 0);
+
+        counterDiv.sizeDelta = new Vector2(width_fragments * 3, navbar_height);
+        x_pos = (navBar_width / 2) - (counterDiv.sizeDelta.x / 2);
+        counterDiv.localPosition = new Vector2(x_pos, 0);
+
+        //counterDiv.offsetMin = new Vector2(center, 0f); // Left and bottom
+        //counterDiv.offsetMax = new Vector2(-0, -0); // Right and top (negative values)
+        //buttonDiv.offsetMin = new Vector2(0, 0f); // Left and bottom
+        //buttonDiv.offsetMax = new Vector2(-center, 0f); // Right and top (negative values)
     }
 
     public int CreateBoard()
     {
-        int n_runes_index = 4;
+        int n_runes_rows_index = 4;
+        int n_runes_cols_index = 8;
+
         int total_runes;
 
-        RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-        float playableWidth = rectTransform.rect.width;
-        float playableHeight = rectTransform.rect.height;
+        float playableWidth = playableArea.rect.width;
+        float playableHeight = playableArea.rect.height;
 
         Debug.Log($"This UI object's width: {playableWidth}, height: {playableHeight}");
+        Debug.Log(
+            $"Position: {playableArea.anchoredPosition}, local: {playableArea.localPosition}"
+        );
+        float runeWidth =
+            (playableWidth - internalMargin * (n_runes_rows_index - 1)) / n_runes_rows_index;
 
-        float runeWidth = (playableWidth - margin * (n_runes_index - 1)) / 4;
-        float runeHeight = runeWidth;
+        float runeHeight =
+            (playableHeight - internalMargin * (n_runes_cols_index - 1)) / n_runes_cols_index;
         Vector2 new_size = new Vector2(runeWidth, runeHeight);
         runeTemplate.GetComponent<RectTransform>().sizeDelta = new_size;
         select_frame.GetComponent<RectTransform>().sizeDelta = new_size;
         Debug.Log($"Newsize: {runeWidth}x{runeHeight}");
 
         // Calculate the maximum number of runes that fit in a row
-        int max_runes_per_row = Mathf.FloorToInt(playableWidth / runeWidth );
+        //int max_runes_per_row = Mathf.FloorToInt(playableWidth / runeWidth );
         // Calculate the maximum number of runes that fit in a column
-        int max_runes_per_column = Mathf.FloorToInt(playableHeight / runeHeight);
+        //int max_runes_per_column = Mathf.FloorToInt(playableHeight / runeHeight);
         // Calculate the total number of runes that fit
-        total_runes = max_runes_per_row * max_runes_per_column;
-        Debug.Log($"runes per row: {max_runes_per_row}, runes per column: {max_runes_per_column}");
+        //total_runes = max_runes_per_row * max_runes_per_column;
+        total_runes = n_runes_rows_index * n_runes_cols_index;
+        Debug.Log($"runes per row: {n_runes_rows_index}, runes per column: {n_runes_cols_index}");
         Debug.Log("Total runes that fit: " + total_runes);
 
-        float runeArrayWidth = (max_runes_per_row - 1) * (runeWidth + margin) / 2;
-        float runeArrayHeight = (max_runes_per_column - 1) * (runeHeight + margin) / 2;
+        float runeArrayWidth = (n_runes_rows_index - 1) * (runeWidth + internalMargin) / 2;
+        float runeArrayHeight = (n_runes_cols_index - 1) * (runeHeight + internalMargin) / 2;
         for (int i = 0; i < total_runes; i++)
         {
             // Calculate position for current rune (i)
-            int row = i % max_runes_per_row;
-            int col = i / max_runes_per_row;
+            int row = i % n_runes_rows_index;
+            int col = i / n_runes_rows_index;
 
             //float x = col * (runeWidth + margin) + margin;
-            float x = -runeArrayWidth + row * (runeWidth + margin);
+            float x = -runeArrayWidth + row * (runeWidth + internalMargin);
 
             //float y = playableHeight - ((row + 1) * (runeHeight + margin)); // Start from top, adjust as needed
-            float y = runeArrayHeight - col * (runeHeight + margin);
+            float y = runeArrayHeight - col * (runeHeight + internalMargin);
 
             // Create a new rune instance from the template (consider object pooling for efficiency)
-            GameObject newrune = Instantiate(runeTemplate, transform);
+            GameObject newrune = Instantiate(runeTemplate, playableArea.transform);
             newrune.name = ($"rune Row:{row}, Col:{col}");
             newrune.transform.localPosition = new Vector3(x, y, 0); // Set position based on calculations
             newrune.GetComponent<RuneInteraction>().runeList = runeList;
@@ -113,25 +191,25 @@ public class InfiniteRunes : MonoBehaviour
         trigger.triggers.Add(entry);
     }
 
- private void Assign_runes(int n_variations_index)
+    private void Assign_runes(int n_variations_index, Transform area)
     {
         System.Random random = new System.Random();
 
         int[] random_id_array = new int[n_variations_index];
 
-        int identation=0;
-        while (identation<random_id_array.Length)
+        int identation = 0;
+        while (identation < random_id_array.Length)
         {
-             int new_id=random.Next(0, runeList.runes.Count);
-             if (!random_id_array.Contains(new_id))
-             {
+            int new_id = random.Next(0, runeList.runes.Count);
+            if (!random_id_array.Contains(new_id))
+            {
                 random_id_array[identation] = new_id;
-                identation+=1;
-             }
+                identation += 1;
+            }
         }
 
         List<GameObject> childObjects = new List<GameObject>();
-        foreach (Transform child in gameObject.transform)
+        foreach (Transform child in area)
         {
             AddEventTrigger(
                 child.gameObject,
@@ -170,7 +248,6 @@ public class InfiniteRunes : MonoBehaviour
         }
     }
 
-    
     void OnGameObjectClicked(GameObject obj)
     {
         if (selected_runes.Count == 0)
@@ -180,7 +257,8 @@ public class InfiniteRunes : MonoBehaviour
             GameObject frame = Instantiate(select_frame, Vector3.zero, Quaternion.identity);
             frame.transform.position = obj.transform.position;
             frame.transform.SetParent(obj.transform);
-            frame.GetComponent<RectTransform>().sizeDelta=obj.GetComponent<RectTransform>().sizeDelta;
+            frame.GetComponent<RectTransform>().sizeDelta =
+                obj.GetComponent<RectTransform>().sizeDelta;
             frame.transform.localScale = Vector3.one;
         }
 
@@ -244,7 +322,6 @@ public class InfiniteRunes : MonoBehaviour
             if (deleteBoth)
             {
                 Destroy(item);
-                
             }
             else
             {
@@ -261,18 +338,15 @@ public class InfiniteRunes : MonoBehaviour
         }
         selected_runes.Clear();
         yield return new WaitForSeconds(0.5f);
-        Debug.Log($"Child count: {gameObject.transform.childCount}");
-        if (gameObject.transform.childCount == 0)
-                {
-                    
-                    SceneManager.LoadScene("VictoryState");
-                }
-        
+        Debug.Log($"Child count: {playableArea.transform.childCount}");
+        if (playableArea.transform.childCount == 0)
+        {
+            SceneManager.LoadScene("VictoryState");
+        }
     }
 
     public void GoBack()
     {
         SceneManager.LoadScene("TitleState");
     }
-
 }
