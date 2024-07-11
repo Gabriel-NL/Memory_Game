@@ -24,6 +24,9 @@ public class RuneInteraction : MonoBehaviour
         initial_color=texture.color;
         texture.sprite = rune_back;
     }
+    public void Set_coordinates(int x,int y){
+
+    }
     public int GetImageId(){
         return image_id;
     }
