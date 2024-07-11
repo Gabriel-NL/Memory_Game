@@ -38,8 +38,7 @@ public class BoardCreator : MonoBehaviour
         int variations = 3;
         AdjustPlayableArea(rectTransform, height_fragments, n_runes_rows_index);
         AdjustNavbar(rectTransform, height_fragments);
-        int runeCount = CreateBoard(n_runes_rows_index, n_runes_cols_index);
-        Assign_runes(variations, playableArea);
+        int runeCount = CreateBoard(n_runes_rows_index, n_runes_cols_index,variations);
     }
 
     public void AdjustPlayableArea(
@@ -101,7 +100,7 @@ public class BoardCreator : MonoBehaviour
         counterDiv.localPosition = new Vector2(x_pos, 0);
     }
 
-    public int CreateBoard(int n_runes_rows_index, int n_runes_cols_index)
+    public int CreateBoard(int n_runes_rows_index, int n_runes_cols_index, int variations)
     {
         int total_runes;
 
@@ -129,6 +128,7 @@ public class BoardCreator : MonoBehaviour
         total_runes = n_runes_rows_index * n_runes_cols_index;
         Debug.Log($"runes per row: {n_runes_rows_index}, runes per column: {n_runes_cols_index}");
         Debug.Log("Total runes that fit: " + total_runes);
+        int[] sequence=IDSequence(variations,total_runes);
 
         float runeArrayWidth = (n_runes_rows_index - 1) * (runeWidth + internalMargin) / 2;
         float runeArrayHeight = (n_runes_cols_index - 1) * (runeHeight + internalMargin) / 2;
@@ -151,6 +151,7 @@ public class BoardCreator : MonoBehaviour
             newrune.transform.localPosition = new Vector3(x, y, 0); // Set position based on calculations
             RuneInteraction script = newrune.GetComponent<RuneInteraction>();
             script.runeList = runeList;
+            script.Set_id(sequence[i]);
             script.Set_coordinates(row, col);
             AddEventTrigger(
                 newrune,
@@ -205,48 +206,42 @@ public class BoardCreator : MonoBehaviour
         trigger.triggers.Add(entry);
     }
 
-    private void Assign_runes(int n_variations_index, Transform area)
+    private int[] IDSequence(int n_variations_index, int total_runes)
     {
         System.Random random = new System.Random();
         if (n_variations_index > runeList.runes.Count)
         {
             n_variations_index = runeList.runes.Count;
         }
-
-        int[] random_id_array = new int[n_variations_index];
         List<int> all_id_list = Enumerable.Range(0, runeList.runes.Count).ToList();
+        int[] selected_id_array = new int[n_variations_index];
 
-        for (int i = 0; i < random_id_array.Length; i++)
+        for (int i = 0; i < selected_id_array.Length; i++)
         {
             int new_id = all_id_list[random.Next(0, all_id_list.Count)];
-            random_id_array[i] = new_id;
+            selected_id_array[i] = new_id;
             all_id_list.Remove(new_id);
-            Debug.Log(new_id );
+        }
+        List<int> id_sequence = new List<int>(); //Size should be equal to totalrunes
+        while (id_sequence.Count < total_runes)
+        {
+            int selected_id = selected_id_array[random.Next(0, selected_id_array.Length)];
+            id_sequence.Add(selected_id);
+            id_sequence.Add(selected_id);
         }
 
-        List<GameObject> childObjects = new List<GameObject>();
-        foreach (Transform child in area)
-        {
-            childObjects.Add(child.gameObject);
-        }
+        // Shuffle the sequence to avoid fully sequential lists
+        id_sequence = id_sequence.OrderBy(x => random.Next()).ToList();
+        string sequence_text="";
 
-        bool alternator = true;
-        int last_id = 0;
-        while (childObjects.Count > 0)
+        // Print the ID sequence
+        foreach (var id in id_sequence)
         {
-            if (alternator)
-            {
-                last_id = random_id_array[random.Next(0, random_id_array.Length)];
-                alternator = !alternator;
-            }
-            else
-            {
-                alternator = !alternator;
-            }
-            GameObject random_child = childObjects[random.Next(0, childObjects.Count)];
-            random_child.GetComponent<RuneInteraction>().Set_id(last_id);
-            childObjects.Remove(random_child);
+            sequence_text+=id+" "; 
         }
+        Debug.Log(sequence_text);
+
+        return id_sequence.ToArray();
     }
 
     void OnGameObjectClicked(GameObject obj)
@@ -299,23 +294,32 @@ public class BoardCreator : MonoBehaviour
 
     IEnumerator ShowAndHide(GameObject obj)
     {
+        
+        
         Debug.Log("Coroutine started...");
         EventSystem eventSystem = EventSystem.current;
-        eventSystem.enabled = false;
         // Wait for the specified amount of time
-        yield return new WaitForSeconds(1f);
-        eventSystem.enabled = true;
 
         // Code to execute after waiting
         Debug.Log("Coroutine finished waiting.");
-
+        List<GameObject> deletable=new List<GameObject>();
         bool deleteBoth = false;
         int id_1 = selected_runes[0].GetComponent<RuneInteraction>().GetImageId();
         int id_2 = selected_runes[1].GetComponent<RuneInteraction>().GetImageId();
         if (id_1 == id_2)
         {
             deleteBoth = true;
+
+            foreach (var item in selected_runes)
+            {
+                deletable.Add(item);
+            }
         }
+
+
+        eventSystem.enabled = false;
+        yield return new WaitForSeconds(1f);
+        
 
         // Hide faces of selected runes
         foreach (GameObject item in selected_runes)
@@ -338,10 +342,12 @@ public class BoardCreator : MonoBehaviour
             }
         }
         selected_runes.Clear();
-        yield return new WaitForSeconds(0.5f);
+        eventSystem.enabled = true;
+        
         Debug.Log($"Child count: {playableArea.transform.childCount}");
         if (playableArea.transform.childCount == 0)
         {
+            yield return new WaitForSeconds(0.5f);
             SceneManager.LoadScene("VictoryState");
         }
     }
