@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -22,23 +23,21 @@ public class BoardCreator : MonoBehaviour
         select_frame;
     private float internalMargin = 20f; // Minimum distance between runes (both X and Y)
     private List<GameObject> selected_runes = new List<GameObject>();
-    public delegate void MyFunctionDelegate(string message); // Example delegate
 
-    public MyFunctionDelegate OnLevelCompleted;
+    public UnityEvent trigger_fail;
 
-    [SerializeField]
-    private FailCounter failCounter;
 
     void Start()
     {
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         float height_fragments = rectTransform.rect.height / 16;
-        int n_runes_rows_index = 6;
-        int n_runes_cols_index = 8;
+        int n_runes_rows_index = 4;
+        int n_runes_cols_index = 4;
         int variations = 3;
         AdjustPlayableArea(rectTransform, height_fragments, n_runes_rows_index);
         AdjustNavbar(rectTransform, height_fragments);
         int runeCount = CreateBoard(n_runes_rows_index, n_runes_cols_index,variations);
+        
     }
 
     public void AdjustPlayableArea(
@@ -332,7 +331,7 @@ public class BoardCreator : MonoBehaviour
             {
                 if (item.GetComponent<RuneInteraction>().clicked)
                 {
-                    failCounter.AddFail();
+                    trigger_fail.Invoke();
                 }
                 else
                 {
@@ -344,10 +343,10 @@ public class BoardCreator : MonoBehaviour
         selected_runes.Clear();
         eventSystem.enabled = true;
         
+        yield return new WaitForSeconds(0.1f);
         Debug.Log($"Child count: {playableArea.transform.childCount}");
         if (playableArea.transform.childCount == 0)
         {
-            yield return new WaitForSeconds(0.5f);
             SceneManager.LoadScene("VictoryState");
         }
     }

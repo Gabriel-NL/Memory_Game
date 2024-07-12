@@ -626,8 +626,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
-  m_fontSizeBase: 90
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 15
@@ -820,7 +820,21 @@ MonoBehaviour:
   runeList: {fileID: 1208678470}
   runeTemplate: {fileID: 7974756117553335751, guid: 3754c0cdf08ebfb4f90a2f9654e11bc0, type: 3}
   select_frame: {fileID: 7469444862525513909, guid: 6b820dd2ae6c9f1479c85552228028d2, type: 3}
-  failCounter: {fileID: 2133772048}
+  trigger_fail:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2133772048}
+        m_TargetAssemblyTypeName: FailCounter, Assembly-CSharp
+        m_MethodName: AddFail
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1942369467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,8 +1128,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
-  m_fontSizeBase: 90
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

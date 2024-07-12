@@ -206,7 +206,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2051643243}
+      - m_Target: {fileID: 1039674880}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Increase_cards_index
         m_Mode: 6
@@ -216,7 +216,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &149677222
 MonoBehaviour:
@@ -432,7 +432,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2051643243}
+      - m_Target: {fileID: 1039674880}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Increase_variations_index
         m_Mode: 6
@@ -516,8 +516,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 132}
-  m_SizeDelta: {x: -100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 450}
+  m_SizeDelta: {x: 0, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &407857930
 MonoBehaviour:
@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2051643243}
+      - m_Target: {fileID: 1039674880}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Increase_variations_index
         m_Mode: 6
@@ -1349,6 +1349,7 @@ GameObject:
   - component: {fileID: 1039674879}
   - component: {fileID: 1039674878}
   - component: {fileID: 1039674877}
+  - component: {fileID: 1039674880}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1406,6 +1407,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1039674880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039674876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c09dcbf9c6f0dc4cb1bb54dffa9a8ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  n_cards: {fileID: 1701380133}
+  n_variations: {fileID: 1043131180}
 --- !u!1 &1043131178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,7 +1772,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2051643243}
+      - m_Target: {fileID: 1039674880}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Increase_cards_index
         m_Mode: 6
@@ -1767,7 +1782,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1306733611
 MonoBehaviour:
@@ -2355,7 +2370,6 @@ GameObject:
   - component: {fileID: 2051643242}
   - component: {fileID: 2051643241}
   - component: {fileID: 2051643240}
-  - component: {fileID: 2051643243}
   m_Layer: 0
   m_Name: Start_game_button
   m_TagString: Untagged
@@ -2427,7 +2441,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2051643243}
+      - m_Target: {fileID: 1039674880}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Start_game_with_selected_values
         m_Mode: 1
@@ -2477,20 +2491,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051643237}
   m_CullTransparentMesh: 1
---- !u!114 &2051643243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2051643237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c09dcbf9c6f0dc4cb1bb54dffa9a8ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  n_cards: {fileID: 1701380133}
-  n_variations: {fileID: 1043131180}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

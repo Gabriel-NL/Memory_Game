@@ -91,8 +91,8 @@ public class GameManager : MonoBehaviour
 
     public void Start_game_with_selected_values()
     {
-        PlayerPrefs.SetInt("n_cards_index", n_cards_index);
-        PlayerPrefs.SetInt("n_variations_index", n_variations_index);
+        PlayerPrefs.SetInt(CustomConstants.n_cards_index_pref, n_cards_index);
+        PlayerPrefs.SetInt(CustomConstants.n_variations_index_pref, n_variations_index);
         PlayerPrefs.Save();
         SceneManager.LoadScene("GameState");
     }
