@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -23,38 +22,50 @@ public class BoardCreator : MonoBehaviour
         select_frame;
     private float internalMargin = 20f; // Minimum distance between runes (both X and Y)
     private List<GameObject> selected_runes = new List<GameObject>();
-
     public UnityEvent trigger_fail;
-
+    private int rune_count;
 
     void Start()
     {
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         float height_fragments = rectTransform.rect.height / 16;
-        int n_runes_rows_index = 4;
-        int n_runes_cols_index = 4;
-        int variations = 3;
+        int n_runes_rows_index = PlayerPrefs.GetInt(CustomConstants.n_cards_index_pref);
+        Debug.Log($"n_runes_rows_index: {n_runes_rows_index}");
+        //int n_runes_rows_index = 16;
+        int variations =  PlayerPrefs.GetInt(CustomConstants.n_variations_index_pref);
+        Debug.Log($"variations: {variations}");
+        //int variations = 2;
+
+        int n_runes_cols_index = 8;
         AdjustPlayableArea(rectTransform, height_fragments, n_runes_rows_index);
         AdjustNavbar(rectTransform, height_fragments);
-        int runeCount = CreateBoard(n_runes_rows_index, n_runes_cols_index,variations);
-        
+        rune_count = CreateBoard(n_runes_rows_index, n_runes_cols_index, variations);
+        PlayerPrefs.SetInt(CustomConstants.rune_count_pref, rune_count);
     }
 
     public void AdjustPlayableArea(
-        RectTransform rectTransform,
+        RectTransform target_transform,
         float height_fragments,
         float n_rows
     )
     {
         float max_height = height_fragments * 14 - externalMargin;
-        float max_width = rectTransform.rect.width - (externalMargin * 2);
-        Debug.Log("Max width: " + max_width);
+        float max_width = target_transform.rect.width - (externalMargin * 2);
+
+        playableArea.sizeDelta = new Vector2(
+            playableArea.rect.width / 100,
+            playableArea.rect.height / 100
+        );
+
         float current_height = playableArea.rect.height;
         float width_modifier = 8f;
         float current_width = current_height / (width_modifier / n_rows);
+        Debug.Log($"Max width: {max_width},Max height: {max_height}");
+
 
         float width_with_max_height = (max_height * current_width) / current_height;
         float height_with_max_width = (max_width * current_height) / current_width;
+        Debug.Log($"width_with_max_height: {width_with_max_height}, height_with_max_width: {height_with_max_width}");
 
         if (width_with_max_height == height_with_max_width)
         {
@@ -62,17 +73,18 @@ public class BoardCreator : MonoBehaviour
         }
         else
         {
-            if (width_with_max_height < height_with_max_width)
+            if (max_height > height_with_max_width)
             {
-                playableArea.sizeDelta = new Vector2(width_with_max_height, max_height);
+                playableArea.sizeDelta = new Vector2(max_width, height_with_max_width);
+                Debug.Log(playableArea.rect.width);
             }
             else
             {
-                playableArea.sizeDelta = new Vector2(max_width, height_with_max_width);
+                playableArea.sizeDelta = new Vector2(width_with_max_height, max_height);
             }
         }
         float y_pos =
-            (rectTransform.rect.height / 2) - externalMargin - (playableArea.sizeDelta.y / 2);
+            (target_transform.rect.height / 2) - externalMargin - (playableArea.sizeDelta.y / 2);
         // Set the anchored position (center)
         playableArea.anchoredPosition = new Vector2(0, y_pos);
     }
@@ -118,16 +130,10 @@ public class BoardCreator : MonoBehaviour
         select_frame.GetComponent<RectTransform>().sizeDelta = new_size;
         Debug.Log($"Newsize: {runeWidth}x{runeHeight}");
 
-        // Calculate the maximum number of runes that fit in a row
-        //int max_runes_per_row = Mathf.FloorToInt(playableWidth / runeWidth );
-        // Calculate the maximum number of runes that fit in a column
-        //int max_runes_per_column = Mathf.FloorToInt(playableHeight / runeHeight);
-        // Calculate the total number of runes that fit
-        //total_runes = max_runes_per_row * max_runes_per_column;
         total_runes = n_runes_rows_index * n_runes_cols_index;
         Debug.Log($"runes per row: {n_runes_rows_index}, runes per column: {n_runes_cols_index}");
         Debug.Log("Total runes that fit: " + total_runes);
-        int[] sequence=IDSequence(variations,total_runes);
+        int[] sequence = IDSequence(variations, total_runes);
 
         float runeArrayWidth = (n_runes_rows_index - 1) * (runeWidth + internalMargin) / 2;
         float runeArrayHeight = (n_runes_cols_index - 1) * (runeHeight + internalMargin) / 2;
@@ -169,23 +175,6 @@ public class BoardCreator : MonoBehaviour
             );
         }
         return total_runes;
-        /*
-        This UI object's width: 1020, height: 2080
-        I want to adjust the width to fit them
-        
-        x + 20 + x + 20 + x + 20 + x
-        novotamanho
-        4x+20*3=1020
-        4x+60=1020
-        4x=960
-        x=960/4
-        x=240
-        100*x= 1020
-
-        Em formato de formula, seria:
-        (4*x)+margin*(n_cards_index-1)=playableWidth
-        (x)=(playableWidth-margin*(n_cards_index-1)/4)
-        */
     }
 
     private void AddEventTrigger(
@@ -212,6 +201,11 @@ public class BoardCreator : MonoBehaviour
         {
             n_variations_index = runeList.runes.Count;
         }
+
+        if (n_variations_index==null || n_variations_index==0)
+        {
+            Debug.LogError("Player prefs not loaded");
+        }
         List<int> all_id_list = Enumerable.Range(0, runeList.runes.Count).ToList();
         int[] selected_id_array = new int[n_variations_index];
 
@@ -222,23 +216,23 @@ public class BoardCreator : MonoBehaviour
             all_id_list.Remove(new_id);
         }
         List<int> id_sequence = new List<int>(); //Size should be equal to totalrunes
-        while (id_sequence.Count < total_runes)
+        for (int i = 0; i < total_runes; i += 2)
         {
-            int selected_id = selected_id_array[random.Next(0, selected_id_array.Length)];
+            int randomID = random.Next(0, selected_id_array.Length);
+            int selected_id = selected_id_array[randomID];
             id_sequence.Add(selected_id);
             id_sequence.Add(selected_id);
         }
 
         // Shuffle the sequence to avoid fully sequential lists
         id_sequence = id_sequence.OrderBy(x => random.Next()).ToList();
-        string sequence_text="";
+        string sequence_text = "";
 
         // Print the ID sequence
         foreach (var id in id_sequence)
         {
-            sequence_text+=id+" "; 
+            sequence_text += id + " ";
         }
-        Debug.Log(sequence_text);
 
         return id_sequence.ToArray();
     }
@@ -259,7 +253,6 @@ public class BoardCreator : MonoBehaviour
 
         if (selected_runes.Count > 0 && selected_runes[0] != obj)
         {
-            Debug.Log("Revealing...");
             selected_runes.Add(obj);
             foreach (GameObject item in selected_runes)
             {
@@ -293,15 +286,13 @@ public class BoardCreator : MonoBehaviour
 
     IEnumerator ShowAndHide(GameObject obj)
     {
-        
-        
         Debug.Log("Coroutine started...");
         EventSystem eventSystem = EventSystem.current;
         // Wait for the specified amount of time
 
         // Code to execute after waiting
         Debug.Log("Coroutine finished waiting.");
-        List<GameObject> deletable=new List<GameObject>();
+        List<GameObject> deletable = new List<GameObject>();
         bool deleteBoth = false;
         int id_1 = selected_runes[0].GetComponent<RuneInteraction>().GetImageId();
         int id_2 = selected_runes[1].GetComponent<RuneInteraction>().GetImageId();
@@ -315,10 +306,8 @@ public class BoardCreator : MonoBehaviour
             }
         }
 
-
         eventSystem.enabled = false;
         yield return new WaitForSeconds(1f);
-        
 
         // Hide faces of selected runes
         foreach (GameObject item in selected_runes)
@@ -342,7 +331,7 @@ public class BoardCreator : MonoBehaviour
         }
         selected_runes.Clear();
         eventSystem.enabled = true;
-        
+
         yield return new WaitForSeconds(0.1f);
         Debug.Log($"Child count: {playableArea.transform.childCount}");
         if (playableArea.transform.childCount == 0)

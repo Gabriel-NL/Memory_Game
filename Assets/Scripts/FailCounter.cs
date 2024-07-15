@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class FailCounter : MonoBehaviour
 {
@@ -34,7 +30,7 @@ public class FailCounter : MonoBehaviour
         ChangeText();
     }
     private void ChangeText(){
-        textMeshProUGUI.text = $"Time: {elapsed_time}  Fails: {fail_count}";
+        textMeshProUGUI.text = $"Time: {elapsed_time:F1}  Fails: {fail_count}";
     }
 
     void OnDisable()
