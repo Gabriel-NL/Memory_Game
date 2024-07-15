@@ -344,7 +344,6 @@ GameObject:
   - component: {fileID: 392492464}
   - component: {fileID: 392492463}
   - component: {fileID: 392492462}
-  - component: {fileID: 392492465}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -438,21 +437,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &392492465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392492460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fdf0be87b98c7147bc81280029ffe26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background: {fileID: 128313655}
-  play_again: {fileID: 1593907968}
-  menu: {fileID: 658769051}
 --- !u!1 &658769050
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +520,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 392492465}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Victory, Assembly-CSharp
         m_MethodName: Go_To_Title_Screen
         m_Mode: 1
@@ -597,6 +581,7 @@ GameObject:
   - component: {fileID: 775293873}
   - component: {fileID: 775293872}
   - component: {fileID: 775293871}
+  - component: {fileID: 775293874}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -654,6 +639,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &775293874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775293870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdf0be87b98c7147bc81280029ffe26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 128313655}
+  play_again: {fileID: 1593907968}
+  menu: {fileID: 658769051}
 --- !u!1 &1355097432
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +871,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 392492465}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Victory, Assembly-CSharp
         m_MethodName: Play_Again
         m_Mode: 1
