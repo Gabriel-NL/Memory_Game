@@ -758,9 +758,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runes:
+  - {fileID: 21300000, guid: bb24bbfa55c52d94a8a9b8cdf83339e7, type: 3}
+  - {fileID: 21300000, guid: af01205e9ea3f7b4e81170935b93d579, type: 3}
   - {fileID: 21300000, guid: 7e5498be6d941fb46a13e783c3f6830e, type: 3}
   - {fileID: 21300000, guid: b97d77a972f71fb42b7123c75b8a2450, type: 3}
+  - {fileID: 21300000, guid: fc95a7d0c4d4ca8499f2192af0d6d2a5, type: 3}
   - {fileID: 21300000, guid: 39a6d57c5e3b29c4f8a81e7b072d0033, type: 3}
+  - {fileID: 21300000, guid: 69da14be9c183f64f9466e8a34b7659e, type: 3}
   rune_back: {fileID: 21300000, guid: b0902726d42c8c640a273d5738475554, type: 3}
 --- !u!1 &1510672744
 GameObject:

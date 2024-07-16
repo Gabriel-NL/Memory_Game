@@ -29,17 +29,17 @@ public class BoardCreator : MonoBehaviour
     {
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         float height_fragments = rectTransform.rect.height / 16;
-        int n_runes_rows_index = PlayerPrefs.GetInt(CustomConstants.n_cards_index_pref);
-        Debug.Log($"n_runes_rows_index: {n_runes_rows_index}");
-        //int n_runes_rows_index = 16;
+        int n_runes_rows = PlayerPrefs.GetInt(CustomConstants.n_cards_index_pref);
+        Debug.Log($"n_runes_rows: {n_runes_rows}");
+        //int n_runes_rows = 16;
         int variations =  PlayerPrefs.GetInt(CustomConstants.n_variations_index_pref);
         Debug.Log($"variations: {variations}");
         //int variations = 2;
 
         int n_runes_cols_index = 8;
-        AdjustPlayableArea(rectTransform, height_fragments, n_runes_rows_index);
+        AdjustPlayableArea(rectTransform, height_fragments, n_runes_rows);
         AdjustNavbar(rectTransform, height_fragments);
-        rune_count = CreateBoard(n_runes_rows_index, n_runes_cols_index, variations);
+        rune_count = CreateBoard(n_runes_rows, n_runes_cols_index, variations);
         PlayerPrefs.SetInt(CustomConstants.rune_count_pref, rune_count);
     }
 
@@ -111,7 +111,7 @@ public class BoardCreator : MonoBehaviour
         counterDiv.localPosition = new Vector2(x_pos, 0);
     }
 
-    public int CreateBoard(int n_runes_rows_index, int n_runes_cols_index, int variations)
+    public int CreateBoard(int n_runes_rows, int n_runes_cols_index, int variations)
     {
         int total_runes;
 
@@ -121,7 +121,7 @@ public class BoardCreator : MonoBehaviour
         Debug.Log($"This UI object's width: {playableWidth}, height: {playableHeight}");
 
         float runeWidth =
-            (playableWidth - internalMargin * (n_runes_rows_index - 1)) / n_runes_rows_index;
+            (playableWidth - internalMargin * (n_runes_rows - 1)) / n_runes_rows;
 
         float runeHeight =
             (playableHeight - internalMargin * (n_runes_cols_index - 1)) / n_runes_cols_index;
@@ -130,19 +130,19 @@ public class BoardCreator : MonoBehaviour
         select_frame.GetComponent<RectTransform>().sizeDelta = new_size;
         Debug.Log($"Newsize: {runeWidth}x{runeHeight}");
 
-        total_runes = n_runes_rows_index * n_runes_cols_index;
-        Debug.Log($"runes per row: {n_runes_rows_index}, runes per column: {n_runes_cols_index}");
+        total_runes = n_runes_rows * n_runes_cols_index;
+        Debug.Log($"runes per row: {n_runes_rows}, runes per column: {n_runes_cols_index}");
         Debug.Log("Total runes that fit: " + total_runes);
         int[] sequence = IDSequence(variations, total_runes);
 
-        float runeArrayWidth = (n_runes_rows_index - 1) * (runeWidth + internalMargin) / 2;
+        float runeArrayWidth = (n_runes_rows - 1) * (runeWidth + internalMargin) / 2;
         float runeArrayHeight = (n_runes_cols_index - 1) * (runeHeight + internalMargin) / 2;
 
         for (int i = 0; i < total_runes; i++)
         {
             // Calculate position for current rune (i)
-            int row = i % n_runes_rows_index;
-            int col = i / n_runes_rows_index;
+            int row = i % n_runes_rows;
+            int col = i / n_runes_rows;
 
             //float x = col * (runeWidth + margin) + margin;
             float x = -runeArrayWidth + row * (runeWidth + internalMargin);
@@ -333,7 +333,6 @@ public class BoardCreator : MonoBehaviour
         eventSystem.enabled = true;
 
         yield return new WaitForSeconds(0.1f);
-        Debug.Log($"Child count: {playableArea.transform.childCount}");
         if (playableArea.transform.childCount == 0)
         {
             SceneManager.LoadScene("VictoryState");

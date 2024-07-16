@@ -10,6 +10,9 @@ public class FailCounter : MonoBehaviour
     private TextMeshProUGUI textMeshProUGUI;
     private const string timerFunctionName="UpdateTimer";
 
+    public float GetTime(){
+        return elapsed_time;
+    }
     public void AddFail()
     {
         fail_count += 1;
@@ -37,9 +40,15 @@ public class FailCounter : MonoBehaviour
     {
         DateTime now = DateTime.Now;
         string formatted_string = now.ToString("MM/dd/yyyy HH:mm:ss");
-        PlayerPrefs.SetString(CustomConstants.last_date_and_time_pref, formatted_string);
-        PlayerPrefs.SetInt(CustomConstants.last_fail_attempts_pref, fail_count);
-        PlayerPrefs.SetFloat(CustomConstants.last_time_elapsed_pref, elapsed_time);
+        float time_elapsed_formated=(int)(elapsed_time * 10) / 10f ;
+        PlayerPrefs.SetString(CustomConstants.lastScore_currentTime, formatted_string);
+        PlayerPrefs.SetInt(CustomConstants.lastScore_failAttempts, fail_count);
+        PlayerPrefs.SetFloat(CustomConstants.lastScore_timeElapsed, time_elapsed_formated);
+        Debug.Log($"Data saved!");
+
+
+        
+        Debug.Log($"Date: {formatted_string},elapsed_time: {elapsed_time},Fails: {fail_count} ");
         PlayerPrefs.Save();
         CancelInvoke(timerFunctionName);
     }

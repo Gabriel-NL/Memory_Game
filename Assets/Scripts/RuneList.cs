@@ -19,4 +19,8 @@ public class RuneList : MonoBehaviour
             throw;
         }
     }
+
+    public int ElementCount(){
+        return runes.Count;
+    }
 }

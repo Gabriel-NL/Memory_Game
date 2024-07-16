@@ -1,6 +1,8 @@
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -17,12 +19,12 @@ public class GameManager : MonoBehaviour
         n_variations_box;
     [SerializeField]private TextMeshProUGUI n_cards,
         n_variations;
+    public UnityEvent ElementCount;
 
     void Start()
     {
         ResizeUI();
         Fill_options();
-        Show_All_Values(difficulty_Options);
 
         n_cards_index = 0;
         n_variations_index = 0;
@@ -56,8 +58,6 @@ public class GameManager : MonoBehaviour
         float new_parent_height = background.rect.height/6.0f;
 
         target_rect.sizeDelta = new Vector2(new_parent_width,new_parent_height);
-        //Debug.Log(new_parent_width);
-        //Debug.Log(target_rect.rect.width);
         bool alternator=true;
         // Iterate through all children
         for (int i = 0; i < target_parent.childCount; i++)
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
                 textRect.offsetMin = new Vector2(0, textRect.offsetMin.y);  // Adjust the left offset
                 textRect.offsetMax = new Vector2(0, textRect.offsetMax.y); // Adjust the right offset (note the negative value)
 
-                Debug.Log(textRect.rect.width);
+
                 // Set left and right offsets
                 if (alternator)
                 {
@@ -104,7 +104,6 @@ public class GameManager : MonoBehaviour
                     buttonRect.localPosition=new Vector2(new_parent_width/6,-new_parent_height/4);
                     alternator= !alternator;
                 }
-                //Debug.Log("Found Button element: " + button.name);
 
             }
 
@@ -112,13 +111,7 @@ public class GameManager : MonoBehaviour
         return target_rect;
     }
 
-    public void Show_All_Values((int, int[])[] options)
-    {
-        foreach (var option in options)
-        {
-           // Debug.Log($"{option.Item1}: {{ {string.Join(", ", option.Item2)} }}");
-        }
-    }
+
 
     private void Fill_options()
     {
@@ -132,15 +125,17 @@ public class GameManager : MonoBehaviour
             (8*3, Get_Valid_Divisors(24, 12)), // From 2 to 7
             (8*2, Get_Valid_Divisors(16, 08)) // From 2 to 3
         };
-        System.Array.Sort(difficulty_Options, (a, b) => b.Item1.CompareTo(a.Item1));
+        System.Array.Sort(difficulty_Options, (a, b) => a.Item1.CompareTo(b.Item1));
     }
 
     private int[] Get_Valid_Divisors(int numCards, int maxDiffCards)
     {
+        string[] files = Directory.GetFiles("Assets/Runes");
+        int maxX =(files.Length/2);
         return Enumerable
-            .Range(2, maxDiffCards - 2 + 1)
-            .Where(divisor => numCards % divisor == 0)
-            .ToArray();
+        .Range(2, maxDiffCards - 2 + 1)
+        .Where(divisor => numCards % divisor == 0 && divisor < maxX)
+        .ToArray();
     }
 
     private void Update_Values()
@@ -178,10 +173,13 @@ public class GameManager : MonoBehaviour
 
     public void Start_game_with_selected_values()
     {
-        PlayerPrefs.SetInt(CustomConstants.n_cards_index_pref, n_cards_index);
-        PlayerPrefs.SetInt(CustomConstants.n_variations_index_pref, difficulty_Options[n_cards_index].Item2[n_variations_index]);
+        int item1=difficulty_Options[n_cards_index].Item1/8;
+        int item2= difficulty_Options[n_cards_index].Item2[n_variations_index];
+        PlayerPrefs.SetInt(CustomConstants.n_cards_index_pref, item1);
+        PlayerPrefs.SetInt(CustomConstants.n_variations_index_pref,item2);
         PlayerPrefs.Save();
         SceneManager.LoadScene("GameState");
+        Debug.Log($"n_cards_index_pref: {item1}, n_variations_index:{item2}");
     }
 
     // Update is called once per frame
