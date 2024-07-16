@@ -1,4 +1,3 @@
-using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -130,8 +129,8 @@ public class GameManager : MonoBehaviour
 
     private int[] Get_Valid_Divisors(int numCards, int maxDiffCards)
     {
-        string[] files = Directory.GetFiles("Assets/Runes");
-        int maxX =(files.Length/2);
+        
+        int maxX =7;
         return Enumerable
         .Range(2, maxDiffCards - 2 + 1)
         .Where(divisor => numCards % divisor == 0 && divisor < maxX)

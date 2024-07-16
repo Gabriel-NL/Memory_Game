@@ -46,7 +46,7 @@ public class Victory : MonoBehaviour
     void Start()
     {
         ResizeUI();
-        string filePath = Path.Combine(Application.dataPath, "PlayerScores.json");
+        string filePath = Path.Combine(Application.persistentDataPath, "PlayerScores.json");
 
         CheckAndStorePlayerScores(filePath);
     }
@@ -119,6 +119,8 @@ public class Victory : MonoBehaviour
             PlayerScoreWrapper wrapper = JsonUtility.FromJson<PlayerScoreWrapper>(json);
             all_score = wrapper.score_Database;
         }
+
+
         if (all_score == null)
         {
             all_score_list = new List<PlayerScore>();
