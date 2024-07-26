@@ -1422,6 +1422,7 @@ GameObject:
   - component: {fileID: 1039674878}
   - component: {fileID: 1039674877}
   - component: {fileID: 1039674880}
+  - component: {fileID: 1039674881}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1498,6 +1499,22 @@ MonoBehaviour:
   n_variations_box: {fileID: 91757426}
   n_cards: {fileID: 1701380133}
   n_variations: {fileID: 1043131180}
+  ElementCount:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1039674881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039674876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656b3dffdd0389d4ea16efafe88c8beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: {fileID: 823799390}
 --- !u!1 &1043131178
 GameObject:
   m_ObjectHideFlags: 0
