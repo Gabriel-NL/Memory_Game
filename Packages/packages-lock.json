@@ -223,12 +223,6 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
-    "com.unity.uiwidgets": {
-      "version": "file:com.unity.uiwidgets",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.visualscripting": {
       "version": "1.9.1",
       "depth": 0,

@@ -11,7 +11,7 @@ public class TitleStateScaler : MonoBehaviour
 
     [SerializeField]
     private Image inner_bg;
-    private float margin = 100;
+    private float BGmargin = 100;
 
     [Space(10)]
     [Header("Title Section")]
@@ -20,6 +20,7 @@ public class TitleStateScaler : MonoBehaviour
 
     [SerializeField]
     private RectTransform title_label;
+    private float title_margin = 30;
 
     /*
     2160 x 4680
@@ -40,8 +41,8 @@ o titulo ta em 6.9 partes de largura e 1.7 de altura
 
     private void ScaleBG()
     {
-        float width = outer_bg.rectTransform.rect.width - margin;
-        float height = outer_bg.rectTransform.rect.height - margin;
+        float width = outer_bg.rectTransform.rect.width - BGmargin;
+        float height = outer_bg.rectTransform.rect.height - BGmargin;
         Debug.Log(width);
         inner_bg.rectTransform.sizeDelta = new Vector2(width, height);
     }
@@ -49,6 +50,6 @@ o titulo ta em 6.9 partes de largura e 1.7 de altura
     private void ScaleTitle(float width, float height)
     {
         title_img.sizeDelta = new Vector2(width, height);
-        
+        title_label.sizeDelta = new Vector2(width - title_margin, height - title_margin);
     }
 }
