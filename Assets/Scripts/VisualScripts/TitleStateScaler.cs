@@ -52,4 +52,6 @@ o titulo ta em 6.9 partes de largura e 1.7 de altura
         title_img.sizeDelta = new Vector2(width, height);
         title_label.sizeDelta = new Vector2(width - title_margin, height - title_margin);
     }
+
+
 }
