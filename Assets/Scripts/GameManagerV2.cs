@@ -67,8 +67,8 @@ public class GameManagerV2 : MonoBehaviour
         public void StartGameLoadingValues()
     {
         int variations=variations_options[variations_index];
-        PlayerPrefs.SetInt(CustomConstants.n_variations_index_pref,variations);
+        PlayerPrefs.SetInt(CustomConstants.n_variations_pref,variations);
         PlayerPrefs.Save();
-        SceneManager.LoadScene("GameState");
+        SceneManager.LoadScene("GameStateV2");
     }
 }
