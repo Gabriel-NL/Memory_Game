@@ -23,6 +23,8 @@ public class BoardCreatorV2 : MonoBehaviour
     private Sprite[] runes_front;
     private Sprite rune_backside;
 
+    private int rune_count;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,8 @@ public class BoardCreatorV2 : MonoBehaviour
         runes_front = InitializeRunes(textures_from_runes_folder);
         int n_runes_rows = 5;
         int n_runes_cols = 8;
+        rune_count=n_runes_rows*n_runes_cols;
+        
 
         int variations = PlayerPrefs.GetInt(CustomConstants.n_variations_pref);
         Debug.Log($"variations: {variations}");
@@ -307,9 +311,10 @@ public class BoardCreatorV2 : MonoBehaviour
         float time_elapsed_formated = (int)(elapsed_time * 10) / 10f;
 
         PlayerPrefs.SetString(CustomConstants.lastScore_day, current_day);
-        PlayerPrefs.SetString(CustomConstants.lastScore_day, current_time);
+        PlayerPrefs.SetString(CustomConstants.lastScore_current_time, current_time);
         PlayerPrefs.SetInt(CustomConstants.lastScore_fails, fail_count);
         PlayerPrefs.SetFloat(CustomConstants.lastScore_time_elapsed, time_elapsed_formated);
+        PlayerPrefs.SetInt(CustomConstants.rune_count_pref, rune_count);
         PlayerPrefs.Save();
 
         Debug.Log($"Data saved!");
