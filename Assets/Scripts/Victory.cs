@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,21 +12,32 @@ public class Victory : MonoBehaviour
         scores_prefab;
     private float internal_margin = 20;
 
+    [SerializeField]
+    private GameObject play_again_button;
+
+    [SerializeField]
+    private GameObject menu_button;    
+
     void Start()
     {
         List<PlayerScore> scores = ScoreRegister.ReadStoredScores();
 
-        Debug.Log($"Scores count: {scores.Count}");
-
         ShowScoresToUser(scores);
+
+        if (PlayerPrefs.GetInt(CustomConstants.play_again_enabled) == 0)
+        {
+            play_again_button.SetActive(false);
+            RectTransform rect_menu = menu_button.GetComponent<RectTransform>();
+            rect_menu.localPosition = new Vector3(0, 0, 0);
+            rect_menu.sizeDelta= new Vector2(rect_menu.sizeDelta.x*2, rect_menu.sizeDelta.y);
+        }
     }
 
     private void ShowScoresToUser(List<PlayerScore> scores)
     {
         if (scores != null && scores.Count > 0)
         {
-            Debug.Log($"Scores count: {scores.Count}");
-            Debug.Log("Populating...");
+            
 
             float container_height = scores_container.GetComponent<RectTransform>().sizeDelta.y;
             float y_pos =
@@ -48,7 +59,7 @@ public class Victory : MonoBehaviour
 
                 child_text = new_entry.transform.Find("Date").GetComponent<TextMeshProUGUI>();
                 child_text.text =
-                    $"Date & Time: {Environment.NewLine}{stored_entry.current_date}, at {stored_entry.current_time}";
+                    $"Date & Time: {System.Environment.NewLine}{stored_entry.current_date}, at {stored_entry.current_time}";
 
                 new_entry.transform.Find("TierColor").GetComponent<Image>().color =
                     CustomConstants.PRIZECOLORS[color_index];
@@ -62,11 +73,14 @@ public class Victory : MonoBehaviour
 
     public void Go_To_Title_Screen()
     {
-        SceneManager.LoadScene("TitleStateV3");
+        gameObject.GetComponent<AdsInitializer>().ShowAnVideoAd();
+        gameObject.GetComponent<AdsInitializer>().ShowAd();
+        SceneManager.LoadScene(CustomConstants.title_state_scene);
     }
 
     public void Play_Again()
     {
-        SceneManager.LoadScene("GameStateV2");
+        SceneManager.LoadScene(CustomConstants.game_state_scene);
     }
+
 }

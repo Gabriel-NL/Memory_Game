@@ -78,10 +78,10 @@ public class ScoreRegister : MonoBehaviour
             // Read the JSON string from the file
             string json = File.ReadAllText(filePath);
 
-            Debug.Log($"Json: {json}");
+            //Debug.Log($"Json: {json}");
             // Deserialize the JSON string back to a PlayerScoreWrapper object
             PlayerScoreWrapper wrapper = JsonUtility.FromJson<PlayerScoreWrapper>(json);
-            Debug.Log($"Wrapper: {JsonUtility.ToJson(wrapper)}");
+            //Debug.Log($"Wrapper: {JsonUtility.ToJson(wrapper)}");
             all_score = wrapper.score_Database ?? new PlayerScore[0];
             //all_score=null;
         }
@@ -100,7 +100,7 @@ public class ScoreRegister : MonoBehaviour
         PlayerScoreWrapper save_changes = new PlayerScoreWrapper(scores.ToArray());
 
         string json_data = JsonUtility.ToJson(save_changes);
-        Debug.Log(json_data);
+        //Debug.Log(json_data);
 
         // Write the JSON string to the file
         File.WriteAllText(filePath, json_data);

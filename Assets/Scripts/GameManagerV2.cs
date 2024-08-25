@@ -23,10 +23,6 @@ public class GameManagerV2 : MonoBehaviour
     }
 
     // Update is called once per frame
-
-
-
-
     private int[] InitializeRuneCounter()
     {
         // Load all Texture2D assets in the "Runes" folder within the Resources folder
@@ -67,6 +63,12 @@ public class GameManagerV2 : MonoBehaviour
         int variations=variations_options[variations_index];
         PlayerPrefs.SetInt(CustomConstants.n_variations_pref,variations);
         PlayerPrefs.Save();
-        SceneManager.LoadScene("GameStateV2");
+        SceneManager.LoadScene(CustomConstants.game_state_scene);
+    }
+
+    public void ShowBestScore(){
+        
+        PlayerPrefs.SetInt(CustomConstants.play_again_enabled,0);
+        SceneManager.LoadScene(CustomConstants.score_state_scene);
     }
 }

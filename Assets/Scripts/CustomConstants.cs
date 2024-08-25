@@ -3,11 +3,7 @@ using UnityEngine;
 
 public static class CustomConstants
 {
-    public const string lastScore_current_time = "Last_score:current_time";
-    public const string lastScore_day = "Last_score:current_time";
-    public const string lastScore_fails = "Last_score:fail_count";
-    public const string lastScore_time_elapsed = "Last_score:time_elapsed";
-
+    public const string play_again_enabled = "play_again_enabled";
     public const string n_variations_pref = "n_variations";
     public const string rune_count_pref = "rune_count";
 
@@ -23,14 +19,16 @@ public static class CustomConstants
         }
 
         int red = int.Parse(hexColor.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
-        Debug.Log("Red: " + red);
-        int green = int.Parse(hexColor.Substring(2, 2),System.Globalization.NumberStyles.HexNumber);
+
+        int green = int.Parse(
+            hexColor.Substring(2, 2),
+            System.Globalization.NumberStyles.HexNumber
+        );
         int blue = int.Parse(hexColor.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
         int alpha =
             hexColor.Length == 8
                 ? int.Parse(hexColor.Substring(6, 2), System.Globalization.NumberStyles.HexNumber)
                 : 255;
-        Debug.Log($"R:{red} G:{green} B:{blue}");
 
         return new Color(red / 255f, green / 255f, blue / 255f, alpha / 255f);
     }
@@ -42,4 +40,8 @@ public static class CustomConstants
         HexToColor("CD7F32"), // Bronze
         HexToColor("898784") // Stone
     };
+
+    public const string title_state_scene = "TitleStateV3";
+    public const string game_state_scene = "GameStateV2";
+    public const string score_state_scene = "VictoryStateV2";
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -317,7 +316,8 @@ public class BoardCreatorV2 : MonoBehaviour
         if (playableArea.transform.childCount == 0)
         {
             SaveData();
-            SceneManager.LoadScene("VictoryStateV2");
+            PlayerPrefs.SetInt(CustomConstants.play_again_enabled,1);
+            SceneManager.LoadScene(CustomConstants.score_state_scene);
         }
     }
 
@@ -350,6 +350,6 @@ public class BoardCreatorV2 : MonoBehaviour
 
     public void GoBack()
     {
-        SceneManager.LoadScene("TitleStateV3");
+        SceneManager.LoadScene(CustomConstants.title_state_scene);
     }
 }
