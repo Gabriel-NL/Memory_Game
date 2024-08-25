@@ -23,7 +23,8 @@ public class BoardCreatorV2 : MonoBehaviour
     private Sprite[] runes_front;
     private Sprite rune_backside;
 
-    private int rune_count;
+    private int rune_count,
+        n_variations;
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +33,12 @@ public class BoardCreatorV2 : MonoBehaviour
         runes_front = InitializeRunes(textures_from_runes_folder);
         int n_runes_rows = 5;
         int n_runes_cols = 8;
-        rune_count=n_runes_rows*n_runes_cols;
-        
+        rune_count = n_runes_rows * n_runes_cols;
 
-        int variations = PlayerPrefs.GetInt(CustomConstants.n_variations_pref);
-        Debug.Log($"variations: {variations}");
+        n_variations = PlayerPrefs.GetInt(CustomConstants.n_variations_pref);
+        Debug.Log($"variations: {n_variations}");
 
-        CreateBoard(n_runes_rows, n_runes_cols, variations);
+        CreateBoard(n_runes_rows, n_runes_cols, n_variations);
     }
 
     public Sprite[] InitializeRunes(Sprite[] textures)
@@ -160,7 +160,26 @@ public class BoardCreatorV2 : MonoBehaviour
             selected_id_array[i] = new_id;
             all_id_list.Remove(new_id);
         }
+        
         List<int> id_sequence = new List<int>(); //Size should be equal to totalrunes
+
+        int slot = 0;
+        for (int i = 0; i < total_runes; i += 2)
+        {
+            int selected_id = selected_id_array[slot];
+            id_sequence.Add(selected_id);
+            id_sequence.Add(selected_id);
+            if (slot >= (selected_id_array.Length - 1))
+            {
+                slot = 0;
+            }
+            else
+            {
+                slot += 1;
+            }
+        }
+        /*
+
         for (int i = 0; i < total_runes; i += 2)
         {
             int randomID = random.Next(0, selected_id_array.Length);
@@ -168,7 +187,7 @@ public class BoardCreatorV2 : MonoBehaviour
             id_sequence.Add(selected_id);
             id_sequence.Add(selected_id);
         }
-
+        */
         // Shuffle the sequence to avoid fully sequential lists
         id_sequence = id_sequence.OrderBy(x => random.Next()).ToList();
         string sequence_text = "";
@@ -252,9 +271,9 @@ public class BoardCreatorV2 : MonoBehaviour
         for (int i = 0; i < selected_runes.Length; i++)
         {
             analiser.Add(selected_runes[i]);
-            selected_runes[i]=null;
+            selected_runes[i] = null;
         }
-        eventSystem.enabled = false;
+        //eventSystem.enabled = false;
         yield return new WaitForSeconds(1f);
 
         int id_1 = analiser[0].GetComponent<RuneInteraction>().GetImageId();
@@ -263,7 +282,8 @@ public class BoardCreatorV2 : MonoBehaviour
         if (id_1 == id_2)
         {
             deleteBoth = true;
-        }else
+        }
+        else
         {
             deleteBoth = false;
         }
@@ -287,8 +307,7 @@ public class BoardCreatorV2 : MonoBehaviour
                 analiser[i].GetComponent<RuneInteraction>().Hide_face(true);
             }
         }
-        eventSystem.enabled = true;
-
+        //eventSystem.enabled = true;
 
         yield return new WaitForSeconds(0.1f);
         if (playableArea.transform.childCount == 0)
@@ -310,12 +329,14 @@ public class BoardCreatorV2 : MonoBehaviour
         float elapsed_time = fail_counter.GetElapsedTime();
         float time_elapsed_formated = (int)(elapsed_time * 10) / 10f;
 
-        PlayerPrefs.SetString(CustomConstants.lastScore_day, current_day);
-        PlayerPrefs.SetString(CustomConstants.lastScore_current_time, current_time);
-        PlayerPrefs.SetInt(CustomConstants.lastScore_fails, fail_count);
-        PlayerPrefs.SetFloat(CustomConstants.lastScore_time_elapsed, time_elapsed_formated);
-        PlayerPrefs.SetInt(CustomConstants.rune_count_pref, rune_count);
-        PlayerPrefs.Save();
+        ScoreRegister.RegisterScore(
+            current_day,
+            current_time,
+            rune_count,
+            n_variations,
+            time_elapsed_formated,
+            fail_count
+        );
 
         Debug.Log($"Data saved!");
         Debug.Log(

@@ -22,7 +22,9 @@ public class GameManagerV2 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() { }
+
+
+
 
     private int[] InitializeRuneCounter()
     {
@@ -30,7 +32,7 @@ public class GameManagerV2 : MonoBehaviour
         Texture2D[] runeTextures = Resources.LoadAll<Texture2D>("Runes");
 
         // Count the number of textures
-        int rune_variants = runeTextures.Length - 1;
+        int rune_variants = runeTextures.Length;
 
         // Use the count as a variable
         string value = "Number of runes: " + rune_variants;
@@ -41,12 +43,7 @@ public class GameManagerV2 : MonoBehaviour
 
         for (int i = 2; i < rune_variants; i++)
         {
-            bool no_remainder = rune_count % i == 0;
-            if (no_remainder)
-            {
-                possibleVariationsList.Add(i);
-                Debug.Log($"Added: {i}");
-            }
+            possibleVariationsList.Add(i);
         }
         return possibleVariationsList.ToArray();
     }
