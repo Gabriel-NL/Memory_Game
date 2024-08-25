@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -271,13 +272,15 @@ public class BoardCreatorV2 : MonoBehaviour
         for (int i = 0; i < selected_runes.Length; i++)
         {
             analiser.Add(selected_runes[i]);
+            selected_runes[i].GetComponent<EventTrigger>().enabled=false;
             selected_runes[i] = null;
         }
         //eventSystem.enabled = false;
         yield return new WaitForSeconds(1f);
-
         int id_1 = analiser[0].GetComponent<RuneInteraction>().GetImageId();
         int id_2 = analiser[1].GetComponent<RuneInteraction>().GetImageId();
+        
+
 
         if (id_1 == id_2)
         {
@@ -305,6 +308,7 @@ public class BoardCreatorV2 : MonoBehaviour
                     analiser[i].GetComponent<RuneInteraction>().clicked = true;
                 }
                 analiser[i].GetComponent<RuneInteraction>().Hide_face(true);
+                analiser[i].GetComponent<EventTrigger>().enabled=true;
             }
         }
         //eventSystem.enabled = true;

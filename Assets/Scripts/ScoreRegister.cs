@@ -35,7 +35,7 @@ public class PlayerScoreWrapper
 
 public class ScoreRegister : MonoBehaviour
 {
-    private static string filePath = Path.Combine(
+    public static string filePath = Path.Combine(
         Application.persistentDataPath,
         "PlayerScores.json"
     );

@@ -19,6 +19,7 @@ public class GameManagerV2 : MonoBehaviour
     {
         variations_options = InitializeRuneCounter();
         variations_label.text = $"{variations_options[variations_index]}";
+        Debug.Log(ScoreRegister.filePath);
     }
 
     // Update is called once per frame
