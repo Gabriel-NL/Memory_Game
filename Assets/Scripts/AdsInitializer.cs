@@ -17,10 +17,15 @@ public class AdsInitializer
     string _iOSGameId;
     bool _testMode = false;
     private string _gameId;
+    CustomDebuger custom_Debuger;
 
-    void Awake()
+    void Start()
     {
+        custom_Debuger= new CustomDebuger();
+        custom_Debuger.ClearLines();
+        custom_Debuger.ReadTextFile();
         InitializeAds();
+        
     }
 
     public void InitializeAds()
@@ -35,37 +40,37 @@ public class AdsInitializer
         if (!Advertisement.isInitialized && Advertisement.isSupported)
         {
             Advertisement.Initialize(_gameId, _testMode, this);
-            Debug.Log("Initialized!");
+            custom_Debuger.AddLine("Initialized!");
         }
     }
 
     public void ShowAnVideoAd()
     {
-        Debug.Log("Loading Ad: " + _androidAdUnitId);
+        custom_Debuger.AddLine("Loading Ad: " + _androidAdUnitId);
         Advertisement.Load(_androidAdUnitId, this); // Corrected to use _androidAdUnitId instead of _gameId
     }
 
     public void OnInitializationComplete()
     {
-        Debug.Log("Unity Ads initialization complete.");
+        custom_Debuger.AddLine("Unity Ads initialization complete.");
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
-        Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+        custom_Debuger.AddLine($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
     }
 
     // Load content to the Ad Unit:
     public void LoadAd()
     {
-        Debug.Log("Loading Ad: " + _androidAdUnitId);
+        custom_Debuger.AddLine("Loading Ad: " + _androidAdUnitId);
         Advertisement.Load(_androidAdUnitId, this);
     }
 
     // Show the loaded content in the Ad Unit:
     public void ShowAd()
     {
-        Debug.Log("Showing Ad: " + _androidAdUnitId);
+        custom_Debuger.AddLine("Showing Ad: " + _androidAdUnitId);
         Advertisement.Show(_androidAdUnitId, this);
     }
 
@@ -73,28 +78,28 @@ public class AdsInitializer
 
     public void OnUnityAdsAdLoaded(string adUnitId)
     {
-        Debug.Log($"Ad loaded: {adUnitId}");
+        custom_Debuger.AddLine($"Ad loaded: {adUnitId}");
         // Optionally show the ad automatically once it is loaded.
     }
 
     public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
     {
-        Debug.Log($"Error loading Ad Unit: {adUnitId} - {error.ToString()} - {message}");
+        custom_Debuger.AddLine($"Error loading Ad Unit: {adUnitId} - {error.ToString()} - {message}");
     }
 
     public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
     {
-        Debug.Log($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
+        custom_Debuger.AddLine($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
     }
 
     public void OnUnityAdsShowStart(string adUnitId)
     {
-        Debug.Log("Ad started: " + adUnitId);
+        custom_Debuger.AddLine("Ad started: " + adUnitId);
     }
 
     public void OnUnityAdsShowClick(string adUnitId)
     {
-        Debug.Log("Ad clicked: " + adUnitId);
+        custom_Debuger.AddLine("Ad clicked: " + adUnitId);
     }
 
     public void OnUnityAdsShowComplete(
@@ -102,6 +107,6 @@ public class AdsInitializer
         UnityAdsShowCompletionState showCompletionState
     )
     {
-        Debug.Log($"Ad completed: {adUnitId}, State: {showCompletionState}");
+        custom_Debuger.AddLine($"Ad completed: {adUnitId}, State: {showCompletionState}");
     }
 }

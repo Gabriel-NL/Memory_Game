@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Advertisements;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -75,7 +74,7 @@ public class Victory : MonoBehaviour
     {
         gameObject.GetComponent<AdsInitializer>().ShowAnVideoAd();
         gameObject.GetComponent<AdsInitializer>().ShowAd();
-        SceneManager.LoadScene(CustomConstants.title_state_scene);
+        //SceneManager.LoadScene(CustomConstants.title_state_scene);
     }
 
     public void Play_Again()
