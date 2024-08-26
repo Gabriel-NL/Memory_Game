@@ -1,31 +1,33 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class RuneInteraction : MonoBehaviour
 {
     // Start is called before the first frame update
-    private int image_id;
+    [SerializeField]private int image_id;
     public bool clicked = false;
-
-    [SerializeField]
-    public RuneList runeList;
     public Image texture;
     private Color initial_color;
     private Sprite rune_back,
         rune_front;
 
-    public void Set_id(int id)
-    {
+    private (int,int) coordinates;
+
+    public void Set_id(int id,Sprite front,Sprite back){
         this.image_id = id;
         this.texture=gameObject.GetComponent<Image>();
-        rune_back = runeList.rune_back;
-        rune_front = runeList.Get_rune(image_id);
+
+        this.rune_front = front;
+        this.rune_back=back;
+
         initial_color=texture.color;
         texture.sprite = rune_back;
     }
-    public void Set_coordinates(int x,int y){
-
+    public void SetCoordinates(int x,int y){
+        coordinates=(x,y);
+    }
+    public (int,int) GetCoordinates(){
+        return (coordinates);
     }
     public int GetImageId(){
         return image_id;

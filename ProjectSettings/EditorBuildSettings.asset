@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TitleState.unity
-    guid: 99fdffb1a5ea7b045b14b519eaa2f875
+    path: Assets/Scenes/TitleStateV3.unity
+    guid: 989ba3891ecdf8f4680506c5c8cadf14
   - enabled: 1
-    path: Assets/Scenes/GameState.unity
-    guid: 2a35545d460e7f24db68f7c1452d2b16
+    path: Assets/Scenes/GameStateV2.unity
+    guid: 2c7f017bf6076734db153ec5dd581c3d
   - enabled: 1
-    path: Assets/Scenes/VictoryState.unity
+    path: Assets/Scenes/VictoryStateV2.unity
     guid: 53bc7b63c528f4648a7c0345f22c2a24
   m_configObjects: {}
