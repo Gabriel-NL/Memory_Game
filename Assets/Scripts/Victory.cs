@@ -73,8 +73,6 @@ public class Victory : MonoBehaviour
 
     public void Go_To_Title_Screen()
     {
-        gameObject.GetComponent<AdsInitializer>().ShowAnVideoAd();
-        gameObject.GetComponent<AdsInitializer>().ShowAd();
         SceneManager.LoadScene(CustomConstants.title_state_scene);
     }
 
