@@ -8,17 +8,26 @@ using UnityEngine;
 [Serializable]
 public class PlayerScore
 {
-    public string current_date;
-    public string current_time;
+    public DateTime score_time;
     public int score;
     public float elapsed_time;
 
-    public PlayerScore(string current_date, string current_time, int score, float elapsed_time)
+    public PlayerScore(DateTime score_time, float elapsed_time,int rune_count,int n_variations,int fail_count)
     {
-        this.current_date = current_date;
-        this.current_time = current_time;
-        this.score = score;
+        this.score_time = score_time;
+
+        int positive = rune_count * (n_variations - 1) * 10;
+        int negative = fail_count * 10;
+        this.score =  positive - negative;
+
         this.elapsed_time = elapsed_time;
+    }
+
+    public string ShowDay(){
+        return score_time.ToString("MM/dd/yyyy");
+    }
+    public string ShowTime(){
+        return score_time.ToString("HH:mm");
     }
 }
 
@@ -40,31 +49,18 @@ public class ScoreRegister : MonoBehaviour
         "PlayerScores.json"
     );
 
-    public static void RegisterScore(
-        string current_date,
-        string current_time,
-        int runecount,
-        int n_variations,
-        float elapsed_time,
-        int fail_count
-    )
-    {
-        int positive = runecount * (n_variations - 1) * 10;
-        int negative = fail_count * 10;
-        int score = positive - negative;
-
-        PlayerScore new_score = new PlayerScore(current_date, current_time, score, elapsed_time);
-
+    public static void RegisterScore(PlayerScore new_score){
         List<PlayerScore> scores = new List<PlayerScore>();
         scores = ReadStoredScores();
-        scores.Add(new_score);
-        scores = scores.OrderByDescending(s => s.score).ThenBy(s => s.elapsed_time).ToList();
 
-        int limit = 3;
-        if (scores.Count > limit)
+        if (scores.Count()<4)
         {
-            scores = scores.Take(limit).ToList();
+          scores.Add(new_score);  
+        }else
+        {
+            scores[3]=new_score;
         }
+        scores = scores.OrderByDescending(s => s.score).ThenBy(s => s.elapsed_time).ToList();
 
         WriteScores(scores, filePath);
     }
@@ -105,4 +101,5 @@ public class ScoreRegister : MonoBehaviour
         // Write the JSON string to the file
         File.WriteAllText(filePath, json_data);
     }
+
 }

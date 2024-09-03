@@ -16,11 +16,13 @@ public class Victory : MonoBehaviour
     private GameObject play_again_button;
 
     [SerializeField]
-    private GameObject menu_button;    
+    private GameObject menu_button;
+
+    private List<PlayerScore> scores = new List<PlayerScore>();
 
     void Start()
     {
-        List<PlayerScore> scores = ScoreRegister.ReadStoredScores();
+        scores = ScoreRegister.ReadStoredScores();
 
         ShowScoresToUser(scores);
 
@@ -29,7 +31,7 @@ public class Victory : MonoBehaviour
             play_again_button.SetActive(false);
             RectTransform rect_menu = menu_button.GetComponent<RectTransform>();
             rect_menu.localPosition = new Vector3(0, 0, 0);
-            rect_menu.sizeDelta= new Vector2(rect_menu.sizeDelta.x*2, rect_menu.sizeDelta.y);
+            rect_menu.sizeDelta = new Vector2(rect_menu.sizeDelta.x * 2, rect_menu.sizeDelta.y);
         }
     }
 
@@ -37,8 +39,6 @@ public class Victory : MonoBehaviour
     {
         if (scores != null && scores.Count > 0)
         {
-            
-
             float container_height = scores_container.GetComponent<RectTransform>().sizeDelta.y;
             float y_pos =
                 container_height / 2 - scores_prefab.GetComponent<RectTransform>().sizeDelta.y / 2;
@@ -59,7 +59,7 @@ public class Victory : MonoBehaviour
 
                 child_text = new_entry.transform.Find("Date").GetComponent<TextMeshProUGUI>();
                 child_text.text =
-                    $"Date & Time: {System.Environment.NewLine}{stored_entry.current_date}, at {stored_entry.current_time}";
+                    $"Date & Time: {System.Environment.NewLine}{stored_entry.score_time.ToString("MM/dd/yyyy")}, at {stored_entry.score_time.ToString("HH:mm")}";
 
                 new_entry.transform.Find("TierColor").GetComponent<Image>().color =
                     CustomConstants.PRIZECOLORS[color_index];
@@ -71,6 +71,26 @@ public class Victory : MonoBehaviour
         }
     }
 
+    private void HighlightRecent()
+    {
+        if (scores == null || scores.Count == 0)
+        {
+            return;
+        }
+
+        PlayerScore mostRecentScore = scores[0];
+
+        foreach (var score in scores)
+        {
+            if (score.score_time > mostRecentScore.score_time)
+            {
+                mostRecentScore = score;
+            }
+        }
+    }
+
+    
+
     public void Go_To_Title_Screen()
     {
         SceneManager.LoadScene(CustomConstants.title_state_scene);
@@ -80,5 +100,4 @@ public class Victory : MonoBehaviour
     {
         SceneManager.LoadScene(CustomConstants.game_state_scene);
     }
-
 }

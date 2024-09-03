@@ -323,29 +323,16 @@ public class BoardCreatorV2 : MonoBehaviour
 
     public void SaveData()
     {
-        DateTime now = DateTime.Now;
-
-        string current_day = now.ToString("MM/dd/yyyy");
-        string current_time = now.ToString("HH:mm");
-
         int fail_count = fail_counter.GetFailCount();
-
+        
         float elapsed_time = fail_counter.GetElapsedTime();
         float time_elapsed_formated = (int)(elapsed_time * 10) / 10f;
 
-        ScoreRegister.RegisterScore(
-            current_day,
-            current_time,
-            rune_count,
-            n_variations,
-            time_elapsed_formated,
-            fail_count
-        );
+        PlayerScore score= new PlayerScore(DateTime.Now,time_elapsed_formated,rune_count,n_variations,fail_count);
+        ScoreRegister.RegisterScore(score);
 
         Debug.Log($"Data saved!");
-        Debug.Log(
-            $"Date: {current_day} at {current_time},elapsed_time: {elapsed_time},Fails: {fail_count} "
-        );
+        Debug.Log($"Date: {score.ShowDay()} at {score.ShowTime()},elapsed_time: {time_elapsed_formated},Fails: {fail_count}");
     }
 
     public void GoBack()
