@@ -8,17 +8,64 @@ using UnityEngine;
 [Serializable]
 public class PlayerScore
 {
-    public string current_date;
-    public string current_time;
+    public string? score_time;
     public int score;
     public float elapsed_time;
 
-    public PlayerScore(string current_date, string current_time, int score, float elapsed_time)
+    public PlayerScore(
+        DateTime score_time,
+        float elapsed_time,
+        int rune_count,
+        int n_variations,
+        int fail_count
+    )
     {
-        this.current_date = current_date;
-        this.current_time = current_time;
-        this.score = score;
+        this.score_time = score_time.ToString("MM/dd/yyyy HH:mm:ss");
+
+        int positive = rune_count * (n_variations - 1) * 10;
+        int negative = fail_count * 10;
+        this.score = positive - negative;
+
         this.elapsed_time = elapsed_time;
+    }
+
+    public PlayerScore()
+    {
+        this.score = 0;
+        this.elapsed_time = 0;
+    }
+
+    public string ShowDay()
+    {
+        if (score_time != null)
+        {
+            DateTime dateTime = DateTime.Parse(score_time);
+
+            return dateTime.ToString("MM/dd/yyyy");
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public string ShowTime()
+    {
+        if (score_time != null)
+        {
+            DateTime dateTime = DateTime.Parse(score_time);
+
+            return dateTime.ToString("HH:mm");
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public DateTime GetRawTime()
+    {
+        return DateTime.Parse(score_time);
     }
 }
 
@@ -40,31 +87,20 @@ public class ScoreRegister : MonoBehaviour
         "PlayerScores.json"
     );
 
-    public static void RegisterScore(
-        string current_date,
-        string current_time,
-        int runecount,
-        int n_variations,
-        float elapsed_time,
-        int fail_count
-    )
+    public static void RegisterScore(PlayerScore new_score)
     {
-        int positive = runecount * (n_variations - 1) * 10;
-        int negative = fail_count * 10;
-        int score = positive - negative;
-
-        PlayerScore new_score = new PlayerScore(current_date, current_time, score, elapsed_time);
-
         List<PlayerScore> scores = new List<PlayerScore>();
         scores = ReadStoredScores();
-        scores.Add(new_score);
-        scores = scores.OrderByDescending(s => s.score).ThenBy(s => s.elapsed_time).ToList();
 
-        int limit = 3;
-        if (scores.Count > limit)
+        if (scores.Count() < 4)
         {
-            scores = scores.Take(limit).ToList();
+            scores.Add(new_score);
         }
+        else
+        {
+            scores[3] = new_score;
+        }
+        scores = scores.OrderByDescending(s => s.score).ThenBy(s => s.elapsed_time).ToList();
 
         WriteScores(scores, filePath);
     }
