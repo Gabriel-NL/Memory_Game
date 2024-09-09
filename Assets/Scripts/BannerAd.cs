@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Advertisements;
- 
+using UnityEngine.SceneManagement;
+
 public class BannerAd : MonoBehaviour
 {
     // For the purpose of this example, these buttons are for functionality testing:
@@ -87,8 +88,10 @@ public class BannerAd : MonoBehaviour
     void OnBannerShown() { }
     void OnBannerHidden() { }
  
-    void OnDestroy()
+    
+    void OnDisable()
     {
         
+        HideBannerAd();
     }
 }

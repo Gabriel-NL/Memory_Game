@@ -892,6 +892,7 @@ GameObject:
   - component: {fileID: 573489758}
   - component: {fileID: 573489757}
   - component: {fileID: 573489760}
+  - component: {fileID: 573489761}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -962,6 +963,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variations_label: {fileID: 557471568}
+--- !u!114 &573489761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573489756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f48927321dd85b84185301fe15098c5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _androidGameId: 5679776
+  _iOSGameId: 5679777
 --- !u!1 &574866521
 GameObject:
   m_ObjectHideFlags: 0
