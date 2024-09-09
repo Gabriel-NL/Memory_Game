@@ -14,4 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VictoryStateV2.unity
     guid: 53bc7b63c528f4648a7c0345f22c2a24
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 1ee1a0eea26f613429f4fae333512e7f, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: d3173308099705c4980b2b3fc9bcd4db, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 4750f5466625dce4295257142ba6bd79, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 76a60466301d86342bc6f4b318479934, type: 2}
