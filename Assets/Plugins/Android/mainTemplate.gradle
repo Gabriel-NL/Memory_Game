@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         // Update the Gradle plugin version here
         classpath 'com.android.tools.build:gradle:8.5.0'
+        
     }
 }
 
@@ -37,13 +38,13 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1' // Assets/LevelPlay/Editor/IronSourceSDKDependencies.xml:17
     implementation 'com.google.android.gms:play-services-basement:18.1.0' // Assets/LevelPlay/Editor/IronSourceSDKDependencies.xml:25
     implementation 'com.unity3d.ads:unity-ads:[4.12.0,4.13[' // Packages/com.unity.ads/Editor/Source/Dependencies.xml:7
+    implementation 'androidx.fragment:fragment:1.1.0'
 // Android Resolver Dependencies End
 **DEPS**}
 
 // Android Resolver Exclusions Start
 android {
   packagingOptions {
-      exclude ('/lib/arm64-v8a/*' + '*')
       exclude ('/lib/armeabi/*' + '*')
       exclude ('/lib/mips/*' + '*')
       exclude ('/lib/mips64/*' + '*')
